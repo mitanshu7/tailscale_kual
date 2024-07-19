@@ -1,0 +1,50 @@
+{
+	"items": [
+	{
+		"name": "Tailscale",
+		"priority": 0,
+		"items": [
+		{
+			"name": "Start Tailscaled",
+			"priority": 1,
+			"action": "/mnt/us/extensions/tailscale/bin/start_tailscaled.sh",
+			"exitmenu": false,
+			"checked": true,
+			"refresh": false,
+			"status": false,
+			"internal": "status Start Tailscaled"
+		},
+		{
+			"name": "Start Tailscale",
+			"priority": 1,
+			"action": "/mnt/us/extensions/tailscale/bin/start_tailscale.sh",
+			"exitmenu": false,
+			"checked": true,
+			"refresh": false,
+			"status": false,
+			"internal": "status Start Tailscale"
+		},
+		{
+			"name": "Stop Tailscale",
+			"priority": 1,
+			"action": "/mnt/us/extensions/tailscale/bin/stop_tailscale.sh",
+			"exitmenu": false,
+			"checked": true,
+			"refresh": false,
+			"status": false,
+			"internal": "status Stop Tailscale"
+		},
+		{
+			"name": "Stop Tailscaled",
+			"priority": 1,
+			"action": "/mnt/us/extensions/tailscale/bin/stop_tailscaled.sh",
+			"exitmenu": false,
+			"checked": true,
+			"refresh": false,
+			"status": false,
+			"internal": "status Stop Tailscaled"
+		}
+		]
+	}
+	]
+}
