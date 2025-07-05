@@ -2,8 +2,8 @@
 <extension>
 	<information>
 		<name>Tailscale</name>
-		<version>0.1</version>
-		<author>Hotchip</author>
+		<version>0.2</version>
+		<author>Mitanshu</author>
 		<id>tailscale</id>
 	</information>
 	<menus>

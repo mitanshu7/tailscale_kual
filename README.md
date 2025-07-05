@@ -5,8 +5,8 @@ This (very very) simple repo allows you to connect your kindle remotely from any
 ## Prerequisites:
 
 1. Jailbroken Kindle. ([see](https://kindlemodding.gitbook.io/kindlemodding))
-2. KUAL installed. ([see](https://kindlemodding.gitbook.io/kindlemodding/post-jailbreak/installing-kual-mrpi))
-3. USBNetworking hack installed and enabled. 
+2. [KUAL](https://wiki.mobileread.com/wiki/KUAL) installed. ([see](https://kindlemodding.gitbook.io/kindlemodding/post-jailbreak/installing-kual-mrpi))
+3. [USBNetworking](https://wiki.mobileread.com/wiki/Kindle_Hacks_Information#USB_networking_UN) hack installed and [enabled](https://wiki.mobileread.com/wiki/USBNetwork). 
 4. Set up ssh keys for ease of use.
 
 

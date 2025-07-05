@@ -11,8 +11,8 @@
 			"exitmenu": false,
 			"checked": true,
 			"refresh": false,
-			"status": false,
-			"internal": "status Start Tailscaled"
+			"status": true,
+			"internal": "status Start_Tailscaled"
 		},
 		{
 			"name": "Start Tailscale",
@@ -21,8 +21,8 @@
 			"exitmenu": false,
 			"checked": true,
 			"refresh": false,
-			"status": false,
-			"internal": "status Start Tailscale"
+			"status": true,
+			"internal": "status Start_Tailscale"
 		},
 		{
 			"name": "Stop Tailscale",
@@ -31,8 +31,8 @@
 			"exitmenu": false,
 			"checked": true,
 			"refresh": false,
-			"status": false,
-			"internal": "status Stop Tailscale"
+			"status": true,
+			"internal": "status Stop_Tailscale"
 		},
 		{
 			"name": "Stop Tailscaled",
@@ -41,8 +41,8 @@
 			"exitmenu": false,
 			"checked": true,
 			"refresh": false,
-			"status": false,
-			"internal": "status Stop Tailscaled"
+			"status": true,
+			"internal": "status Stop_Tailscaled"
 		}
 		]
 	}

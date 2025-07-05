@@ -1,4 +1,3 @@
 #!/bin/sh
-/mnt/us/extensions/tailscale/bin/tailscale up > tailscale_start_log.txt 2>&1
-kh_msg "$(cat tailscale_start_log.txt)"
+nohup /mnt/us/extensions/tailscale/bin/tailscale up --auth-key=$(cat /mnt/us/extensions/tailscale/bin/auth.key)> tailscale_start_log.txt 2>&1 &
 
