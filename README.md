@@ -1,6 +1,6 @@
 # Tailscale for Kindle (KUAL)
 
-This (very very) simple repo allows you to connect your kindle remotely from anywhere using Tailscale VPN.
+This (very) simple repo allows you to connect your kindle remotely from anywhere using Tailscale VPN.
 
 ## Prerequisites:
 
@@ -11,7 +11,7 @@ This (very very) simple repo allows you to connect your kindle remotely from any
 
 ## My Kindle:
 
-I have a PaperWhite (7th Generation), reffered to as PW3.
+I have a PaperWhite (7th Generation), referred to as [PW3](https://wiki.mobileread.com/wiki/Kindle_Serial_Numbers).
 
 ```
 [root@kindle root]# uname -a
@@ -38,9 +38,9 @@ Having tested out on this device only, [YMMV](https://dictionary.cambridge.org/d
 
 8. Copy the login url to a modern web browser and login using your preferred SSO. Skip to next step if you filled a valid auth key.
 
-9. After connecting the device should add the kindle to your `Machines` page on tailscale admin console. ([this](https://login.tailscale.com/admin/machines)).
+9. After connecting the device, tailscale should add the kindle to your [Machines](https://login.tailscale.com/admin/machines) page on tailscale [admin console](https://login.tailscale.com/welcome).
 
-10. Now you can see the (static) IP address assigned by Tailscale for your machine. You can use this ip to connect to kindle.
+10. Now you can see the (fairly static) IP address assigned by Tailscale for your kindle. You can use this ip to connect!
 
 11. In case you want to restart fresh (deleling the logs, and removing machine from tailscale etc.), you should first stop both `tailscale` and `tailscaled` respectively from KUAL menu, then connect kindle to PC for troubleshooting.
 
