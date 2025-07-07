@@ -28,23 +28,19 @@ Having tested out on this device only, [YMMV](https://dictionary.cambridge.org/d
 
 3. Place the `tailscale` and `tailscaled` binaries in the `tailscale/bin/` folder of this (local) repository.
 
-4. Fill the empty `auth.key` file, in the `tailscale/bin/` folder with your [Tailscale Auth Key](https://tailscale.com/kb/1085/auth-keys) to skip having to login using the link. You may choose not to do so.
+4. Fill the empty `auth.key` file, in the `tailscale/bin/` folder with your [Tailscale Auth Key](https://tailscale.com/kb/1085/auth-keys) to login.
 
 5. Place the **tailscale** (not the `tailscale_kual`) folder into the `extensions` folder on your kindle.
 
 6. In the KUAL menu, start `tailscaled` first, wait for about 10 seconds, then start `tailscale`.
 
-7. Plug in the Kindle to PC. You can find the url to login in the `extensions/tailscale/` folder in `tailscale_start_log.txt` file, if this is a first time setup or you chose to not fill the auth key.
+7. After this, tailscale should add the kindle to your [Machines](https://login.tailscale.com/admin/machines) page on tailscale [admin console](https://login.tailscale.com/welcome).
 
-8. Copy the login url to a modern web browser and login using your preferred SSO. Skip to next step if you filled a valid auth key.
+8.  Now you can see the (fairly static) IP address assigned by Tailscale for your kindle. You can use this ip to `ssh root@<kindle-ip>`!
 
-9. After connecting the device, tailscale should add the kindle to your [Machines](https://login.tailscale.com/admin/machines) page on tailscale [admin console](https://login.tailscale.com/welcome).
+9.  In case you want to restart fresh, Remove Kindle from tailscale admin console, Stop `tailscale` and `tailscaled` in KUAL, and delete the logs and new files created in `/extensions/tailscale/bin`. This will reset the state of tailscale on your kindle. 
 
-10. Now you can see the (fairly static) IP address assigned by Tailscale for your kindle. You can use this ip to connect!
-
-11. In case you want to restart fresh (deleling the logs, and removing machine from tailscale etc.), you should first stop both `tailscale` and `tailscaled` respectively from KUAL menu, then connect kindle to PC for troubleshooting.
-
-12. Note: Make sure the kindle screen is on, else the kindle sleeps the wifi. You can also not connect to kindle via ssh when it is connected to PC using the cable.
+10. Note: Make sure the kindle screen is on, else the kindle sleeps the wifi. You can also not connect to kindle via ssh when it is connected to PC using the cable.
 
 ## Note:
 
