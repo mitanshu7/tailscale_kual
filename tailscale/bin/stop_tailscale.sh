@@ -9,6 +9,14 @@ eips_log() {
 }
 
 echo "[$(date)] Stopping Tailscale..." > "$LOG"
+
+. "$BIN/lock.sh"
+if ! acquire_lock; then
+    eips_log "Another operation in progress, try again"
+    exit 1
+fi
+trap release_lock EXIT
+
 eips_log "Stopping Tailscale..."
 
 if "$BIN/tailscale" down >> "$LOG" 2>&1; then

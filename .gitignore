@@ -1,2 +1,8 @@
 tailscale/bin/tailscale
 tailscale/bin/tailscaled
+tailscale/bin/*.txt
+tailscale/bin/*.bak
+tailscale/bin/tailscaled.state
+tailscale/bin/autostart.enabled
+tailscale/bin/auth.key
+tailscale/bin/proxy.address

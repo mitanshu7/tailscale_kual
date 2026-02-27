@@ -10,6 +10,13 @@ eips_log() {
 
 echo "[$(date)] Starting tailscaled..." > "$LOG"
 
+. "$BIN/lock.sh"
+if ! acquire_lock; then
+    eips_log "Another operation in progress, try again"
+    exit 1
+fi
+trap release_lock EXIT
+
 # Kill any existing instance and remove stale socket before starting.
 # This makes it safe to switch modes without explicitly stopping first.
 pkill tailscaled 2>/dev/null || true
@@ -26,4 +33,5 @@ if kill -0 "$DAEMON_PID" 2>/dev/null; then
     eips_log "tailscaled started OK"
 else
     eips_log "tailscaled failed to start - check log"
+    exit 1
 fi

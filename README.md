@@ -38,7 +38,7 @@ Having tested out on this device only, [YMMV](https://dictionary.cambridge.org/d
 
 8. **Recommended:** In the [Tailscale admin console](https://login.tailscale.com/admin/machines), find your Kindle, click the three-dot menu, and select **Disable key expiry**. After this one-time step, the Kindle will reconnect to your tailnet on every reboot without needing the `auth.key` file again. The auth key is only needed for the very first registration.
 
-9. In case you want to restart fresh, remove the Kindle from the Tailscale admin console, stop `tailscale` and `tailscaled` via KUAL, then delete the state and log files created in `/mnt/us/extensions/tailscale/bin/`: `tailscaled.state`, `tailscale_start_log.txt`, `tailscaled_start_log.txt`, `tailscaled_proxy_start_log.txt`, `tailscaled_tun_start_log.txt`, `tailscale_stop_log.txt`, `tailscaled_stop_log.txt`, and `update_log.txt`. This will fully reset Tailscale's registration on your Kindle.
+9. In case you want to restart fresh, remove the Kindle from the Tailscale admin console, stop `tailscale` and `tailscaled` via KUAL, then delete the state and log files created in `/mnt/us/extensions/tailscale/bin/`: `tailscaled.state`, `tailscale_start_log.txt`, `tailscaled_start_log.txt`, `tailscaled_proxy_start_log.txt`, `tailscaled_tun_start_log.txt`, `tailscale_stop_log.txt`, `tailscaled_stop_log.txt`, `autostart_log.txt`, `status_log.txt`, and `update_log.txt`. This will fully reset Tailscale's registration on your Kindle.
 
 10. Note: Make sure the kindle screen is on, else the kindle sleeps the wifi. You can also not connect to kindle via ssh when it is connected to PC using the cable.
 
@@ -79,7 +79,54 @@ Status messages are shown on-screen as the script runs. Full progress and any er
 
 **Tip:** All KUAL actions (start, stop, update) display live status on the Kindle screen and write a corresponding log file in `extensions/tailscale/bin/` — check those logs first when troubleshooting.
 
-**Note:** Stop `tailscale` and `tailscaled` via the KUAL menu first before running this, then start them again afterwards.
+**Note:** If the daemon is already running during an upgrade, the script will automatically stop it, install the new binaries, and restart it in the same mode — no manual intervention needed.
+
+## Autostart on Boot
+
+Tailscale can be configured to start automatically when the Kindle boots, using the Kindle's native upstart init system. The first time you enable autostart, the extension installs a small upstart job to `/etc/upstart/` (this requires a one-time rootfs write via `mntroot`). After that, autostart is toggled by a simple trigger file — no further system changes needed.
+
+### Enabling
+
+In the KUAL menu, open **Autostart** → **Enable Autostart**. This will:
+
+1. Install the upstart job `/etc/upstart/tailscale-autostart.conf` if not already present.
+2. Create a trigger file (`autostart.enabled`) in the extension's `bin/` directory.
+
+On every subsequent boot, the upstart job checks for the trigger file and, if present, runs the autostart script which will:
+
+1. Wait up to 2 minutes for Wi-Fi to become available.
+2. Start `tailscaled` in the configured mode.
+3. Connect to your tailnet (reconnect first, auth key fallback).
+
+### Disabling
+
+Open **Autostart** → **Disable Autostart** to remove the trigger file. The upstart job stays installed but does nothing without the trigger. This does not stop a currently running Tailscale session.
+
+### Choosing the Mode
+
+In the KUAL menu, open **Autostart** → **Set Mode** and pick one of:
+
+- **Standard (Userspace)** — default
+- **Proxy Mode (SOCKS5/HTTP)** — uses the address from `proxy.address`
+- **Kernel TUN**
+
+The selected mode is stored in `extensions/tailscale/bin/autostart.mode`. You can also edit this file directly if you prefer.
+
+### Logs
+
+Autostart progress and errors are written to `extensions/tailscale/bin/autostart_log.txt`.
+
+## Status
+
+Tap **Status** at the top of the Tailscale KUAL menu to display a summary on the Kindle screen:
+
+- **tailscaled**: running or stopped
+- **tailscale**: connected, disconnected, or other backend state
+- **IP**: your Tailscale IP address (if connected)
+- **Autostart mode**: standard, proxy, or tun
+- **Autostart**: enabled or disabled
+
+Output is also written to `extensions/tailscale/bin/status_log.txt`.
 
 ## Note:
 

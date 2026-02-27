@@ -5,6 +5,16 @@
 			"priority": 0,
 			"items": [
 				{
+					"name": "Status",
+					"priority": 1,
+					"action": "/mnt/us/extensions/tailscale/bin/status_tailscale.sh",
+					"exitmenu": false,
+					"checked": true,
+					"refresh": false,
+					"status": true,
+					"internal": "status Tailscale_Status"
+				},
+				{
 					"name": "Start Tailscaled",
 					"priority": 1,
 					"items": [
@@ -69,6 +79,68 @@
 					"refresh": false,
 					"status": true,
 					"internal": "status Stop_Tailscaled"
+				},
+				{
+					"name": "Autostart",
+					"priority": 1,
+					"items": [
+						{
+							"name": "Enable Autostart",
+							"priority": 1,
+							"action": "/mnt/us/extensions/tailscale/bin/enable_autostart.sh",
+							"exitmenu": false,
+							"checked": true,
+							"refresh": false,
+							"status": true,
+							"internal": "status Enable_Autostart"
+						},
+						{
+							"name": "Disable Autostart",
+							"priority": 1,
+							"action": "/mnt/us/extensions/tailscale/bin/disable_autostart.sh",
+							"exitmenu": false,
+							"checked": true,
+							"refresh": false,
+							"status": true,
+							"internal": "status Disable_Autostart"
+						},
+						{
+							"name": "Set Mode",
+							"priority": 1,
+							"items": [
+								{
+									"name": "Standard (Userspace)",
+									"priority": 1,
+									"action": "/mnt/us/extensions/tailscale/bin/set_mode_standard.sh",
+									"exitmenu": false,
+									"checked": true,
+									"refresh": false,
+									"status": true,
+									"internal": "status Set_Mode_Standard"
+								},
+								{
+									"name": "Proxy Mode (SOCKS5/HTTP)",
+									"priority": 1,
+									"action": "/mnt/us/extensions/tailscale/bin/set_mode_proxy.sh",
+									"exitmenu": false,
+									"checked": true,
+									"refresh": false,
+									"status": true,
+									"internal": "status Set_Mode_Proxy"
+								},
+								{
+									"name": "Kernel TUN",
+									"priority": 1,
+									"action": "/mnt/us/extensions/tailscale/bin/set_mode_tun.sh",
+									"exitmenu": false,
+									"checked": true,
+									"refresh": false,
+									"status": true,
+									"internal": "status Set_Mode_TUN"
+								}
+							]
+						}
+					]
 				},
 				{
 					"name": "Install / Update Binaries",

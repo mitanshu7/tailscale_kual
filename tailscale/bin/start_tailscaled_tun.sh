@@ -11,6 +11,13 @@ eips_log() {
 
 echo "[$(date)] Starting tailscaled (kernel TUN)..." > "$LOG"
 
+. "$BIN/lock.sh"
+if ! acquire_lock; then
+    eips_log "Another operation in progress, try again"
+    exit 1
+fi
+trap release_lock EXIT
+
 # Kill any existing instance and remove stale socket before starting.
 # This makes it safe to switch modes without explicitly stopping first.
 pkill tailscaled 2>/dev/null || true
@@ -27,4 +34,5 @@ if kill -0 "$DAEMON_PID" 2>/dev/null; then
     eips_log "tailscaled started OK (kernel TUN)"
 else
     eips_log "tailscaled failed - kernel TUN may not be supported"
+    exit 1
 fi

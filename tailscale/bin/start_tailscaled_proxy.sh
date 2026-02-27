@@ -11,9 +11,16 @@ eips_log() {
 
 echo "[$(date)] Starting tailscaled (proxy mode)..." > "$LOG"
 
+. "$BIN/lock.sh"
+if ! acquire_lock; then
+    eips_log "Another operation in progress, try again"
+    exit 1
+fi
+trap release_lock EXIT
+
 # Read proxy address from config file, default to localhost:1055
 if [ -s "$PROXY_ADDR_FILE" ]; then
-    PROXY_ADDR=$(cat "$PROXY_ADDR_FILE")
+    PROXY_ADDR=$(tr -d '[:space:]' < "$PROXY_ADDR_FILE")
 else
     PROXY_ADDR=localhost:1055
 fi
@@ -36,4 +43,5 @@ if kill -0 "$DAEMON_PID" 2>/dev/null; then
     eips_log "tailscaled started OK (proxy: $PROXY_ADDR)"
 else
     eips_log "tailscaled failed to start - check log"
+    exit 1
 fi
