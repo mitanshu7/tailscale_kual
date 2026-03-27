@@ -32,13 +32,15 @@ echo "Installed version : $CURRENT" >> "$LOG"
 log "Checking latest Tailscale version..."
 LATEST_3=$(curl -sf --user-agent "tailscale-kual-updater/1.0" \
     "https://api.github.com/repos/tailscale/tailscale/releases?per_page=3" 2>>"$LOG" \
-    | sed -e 's/[{}]/''/g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' \
+    | sed -e 's/[{}]/''/g' | awk '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' \
     | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
 
 if [ -z "$LATEST_3" ]; then
     log "ERROR: Could not determine latest versions. Check Wi-Fi connectivity."
     exit 1
 fi
+
+echo -e "Latest 3 versions:\n$LATEST_3" >> "$LOG"
 
 for version in $LATEST_3; do
     LATEST=$version
