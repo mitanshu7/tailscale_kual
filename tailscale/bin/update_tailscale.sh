@@ -30,14 +30,29 @@ echo "Installed version : $CURRENT" >> "$LOG"
 # curl is used instead of wget: BusyBox wget on this Kindle cannot complete
 # TLS handshakes with github.com or pkgs.tailscale.com.
 log "Checking latest Tailscale version..."
-LATEST=$(curl -sf --user-agent "tailscale-kual-updater/1.0" \
-    "https://api.github.com/repos/tailscale/tailscale/releases/latest" 2>>"$LOG" \
-    | grep '"tag_name"' | head -1 | sed 's/.*"v\([^"]*\)".*/\1/')
+LATEST_3=$(curl -sf --user-agent "tailscale-kual-updater/1.0" \
+    "https://api.github.com/repos/tailscale/tailscale/releases?per_page=3" 2>>"$LOG" \
+    | sed -e 's/[{}]/''/g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' \
+    | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
 
-if [ -z "$LATEST" ]; then
-    log "ERROR: Could not determine latest version. Check Wi-Fi connectivity."
+if [ -z "$LATEST_3" ]; then
+    log "ERROR: Could not determine latest versions. Check Wi-Fi connectivity."
     exit 1
 fi
+
+for version in $LATEST_3; do
+    LATEST=$version
+    echo "Checking $LATEST" >> "$LOG"
+    URL="https://pkgs.tailscale.com/stable/tailscale_${LATEST}_${ARCH}.tgz"
+    status=$(curl -s -o /dev/null -I -w "%{http_code}" ${URL})
+    if [ "$status" = "200" ]; then
+        echo "Using $LATEST" >> "$LOG"
+        break
+    else
+        echo "Version $LATEST does not appear to have been built for ARM. Trying next version" >> "$LOG"
+    fi
+done
+
 echo "Latest version    : $LATEST" >> "$LOG"
 
 if [ "$CURRENT" = "$LATEST" ]; then
