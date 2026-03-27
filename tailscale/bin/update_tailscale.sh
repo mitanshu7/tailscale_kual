@@ -43,6 +43,7 @@ fi
 
 echo -e "Latest $VERSIONS_TO_TRY versions:\n$LATEST_VERSIONS" >> "$LOG"
 
+# Iterated through release tags from GitHub API, until one with a 200 return code is found
 for version in $LATEST_VERSIONS; do
     LATEST=$version
     echo "Checking $LATEST" >> "$LOG"
