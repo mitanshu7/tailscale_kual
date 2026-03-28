@@ -4,6 +4,7 @@ INSTALL_DIR=/mnt/us/extensions/tailscale/bin
 TMP_DIR=/mnt/us/extensions/tailscale/tmp_update
 LOG=$INSTALL_DIR/update_log.txt
 ARCH=arm
+VERSIONS_TO_TRY=3
 
 # Print a message to the Kindle screen via eips and append to the log file.
 # Text is padded to 50 chars so each call fully overwrites the previous line.
@@ -30,14 +31,33 @@ echo "Installed version : $CURRENT" >> "$LOG"
 # curl is used instead of wget: BusyBox wget on this Kindle cannot complete
 # TLS handshakes with github.com or pkgs.tailscale.com.
 log "Checking latest Tailscale version..."
-LATEST=$(curl -sf --user-agent "tailscale-kual-updater/1.0" \
-    "https://api.github.com/repos/tailscale/tailscale/releases/latest" 2>>"$LOG" \
-    | grep '"tag_name"' | head -1 | sed 's/.*"v\([^"]*\)".*/\1/')
+LATEST_VERSIONS=$(curl -sf --user-agent "tailscale-kual-updater/1.0" \
+    "https://api.github.com/repos/tailscale/tailscale/releases?per_page=${VERSIONS_TO_TRY}" 2>>"$LOG" \
+    | sed -e 's/[{}]/''/g' | awk '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' \
+    | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
 
-if [ -z "$LATEST" ]; then
-    log "ERROR: Could not determine latest version. Check Wi-Fi connectivity."
+if [ -z "$LATEST_VERSIONS" ]; then
+    log "ERROR: Could not determine latest versions. Check Wi-Fi connectivity."
     exit 1
 fi
+
+echo -e "Latest $VERSIONS_TO_TRY versions:\n$LATEST_VERSIONS" >> "$LOG"
+
+# Iterated through release tags from GitHub API, until one with a 200 return code is found
+for version in $LATEST_VERSIONS; do
+    LATEST=$version
+    echo "Checking $LATEST" >> "$LOG"
+    URL="https://pkgs.tailscale.com/stable/tailscale_${LATEST}_${ARCH}.tgz"
+    status=$(curl -s -o /dev/null -I -w "%{http_code}" ${URL})
+    if [ "$status" = "200" ]; then
+        echo "Using $LATEST" >> "$LOG"
+        break
+    else
+        echo "Version $LATEST does not appear to have been built for ARM. Trying next version" >> "$LOG"
+        continue
+    fi
+done
+
 echo "Latest version    : $LATEST" >> "$LOG"
 
 if [ "$CURRENT" = "$LATEST" ]; then
