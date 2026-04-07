@@ -6,8 +6,11 @@ This (very) simple repo allows you to connect your kindle remotely from anywhere
 
 1. Jailbroken Kindle. ([see](https://kindlemodding.gitbook.io/kindlemodding))
 2. [KUAL](https://wiki.mobileread.com/wiki/KUAL) installed. ([see](https://kindlemodding.gitbook.io/kindlemodding/post-jailbreak/installing-kual-mrpi))
-3. [USBNetworking](https://www.mobileread.com/forums/showthread.php?t=225030) hack installed and [enabled](https://wiki.mobileread.com/wiki/USBNetwork).
-4. Set up ssh keys for ease of use.
+4. (Optional) [USBNetworking](https://www.mobileread.com/forums/showthread.php?t=225030) hack installed and [enabled](https://wiki.mobileread.com/wiki/USBNetwork).
+3. (Optional) Set up SSH keys for ease of use.
+
+[!NOTE]
+SSH setup using USBNetworking is optional because Tailscale will be started using `--ssh`, which enables [Tailscale SSH](https://tailscale.com/docs/features/tailscale-ssh).
 
 ## My Kindle:
 
