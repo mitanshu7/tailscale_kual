@@ -9,8 +9,8 @@ This (very) simple repo allows you to connect your kindle remotely from anywhere
 4. (Optional) [USBNetworking](https://www.mobileread.com/forums/showthread.php?t=225030) hack installed and [enabled](https://wiki.mobileread.com/wiki/USBNetwork).
 3. (Optional) Set up SSH keys for ease of use.
 
-[!NOTE]
-SSH setup using USBNetworking is optional because Tailscale will be started using `--ssh`, which enables [Tailscale SSH](https://tailscale.com/docs/features/tailscale-ssh).
+> [!NOTE]
+> SSH setup using USBNetworking is optional because Tailscale will be started using `--ssh`, which enables [Tailscale SSH](https://tailscale.com/docs/features/tailscale-ssh).
 
 ## My Kindle:
 
