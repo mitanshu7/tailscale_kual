@@ -1,2 +1,4 @@
 tailscale/bin/tailscale
 tailscale/bin/tailscaled
+.DS_Store
+/build/
